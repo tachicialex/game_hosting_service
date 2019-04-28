@@ -1,0 +1,57 @@
+version: '3'
+ 
+services:
+  gameclient:
+    image: gameclient
+    hostname: gameclient
+    ports:
+     - 5000:5000
+    restart: always
+    networks:
+      - game-service-network
+
+  gameservice:
+    image: gameservice
+    hostname: gameservice
+    ports:
+     - 7549:7549
+    restart: always
+    depends_on:
+      - database
+    networks:
+      - game-service-network
+      - database-network
+
+  database:
+    image: mysql:5.5
+    hostname: database
+    command: --init-file /data/application/init.sql
+    environment:
+      MYSQL_DATABASE: Users
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./Database:/var/lib/mysql
+      - ./init.sql:/data/application/init.sql
+    networks:
+      - database-network
+
+  visualizer:
+    image: dockersamples/visualizer
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    ports:
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  game-service-network:
+    driver: overlay
+  database-network:
+    driver: overlay
