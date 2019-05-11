@@ -10,6 +10,17 @@ app = Flask(__name__)
 db_name = "gamedb"
 database_host = "database"
 
+available_lobbies = ["gamelobby"]
+running_lobbies = []
+
+class Lobby:
+	def __init__(self, username, host_name):
+		self.username = username
+		self.nr_players = 1
+		self.host_name = host_name
+	def get_list(self):
+		return [self.username, self.nr_players, self.host_name]
+
 @method
 def login_player(name):
 	# check if player is new:
@@ -19,6 +30,7 @@ def login_player(name):
 	sql = "SELECT username, score FROM Users WHERE username='%s'" % name
 	cursor.execute(sql)
 
+	# check if user exists here
 	users = cursor.fetchall()
 	if (len(users) == 0):
 		# register new user:
@@ -35,6 +47,22 @@ def login_player(name):
 
 		db.close()
 		return "Welcome back %s [score %d]" % (user_data[0], int(user_data[1]))
+
+@method
+def create_lobby(username):
+	if len(available_lobbies) == 0:
+		return "Not Available."
+	else:
+		host_name = available_lobbies.pop()
+		running_lobbies.append(Lobby(username, host_name))
+		return host_name
+
+@method
+def get_lobbies():
+	lobbies_list = []
+	for lobby in running_lobbies:
+		lobbies_list.append(lobby.get_list())
+	return str(lobbies_list)
 
 @app.route("/", methods=["POST"])
 def index():

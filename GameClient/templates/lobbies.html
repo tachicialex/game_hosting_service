@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="1" >
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+form {border: 3px solid #f1f1f1;}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  cursor: pointer;
+  display: inline;
+}
+
+button:hover {
+  opacity: 0.8;
+
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+.btn-group button {
+  background-color: #4CAF50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<h2>PLAY</h2>
+
+<!--<button type="submit" name="submit_button" value="Do Something Else" -->
+<h3>Player: {{player}}</h3>
+<h3>Available games: </h3>
+<form action="/lobbies" method="post">
+  <!-- Four buttons in a group -->
+  {% for lobby in lobbies_list %}
+  <div class="btn-group" style="width:50%">
+    <button style="width:25%" type="submit" name="submit_button" value="{{lobby[0]}}">{{lobby[0]}} {{lobby[1]}}</button>
+  </div>
+  {% endfor %}
+</form>
+
+</body>
+</html>

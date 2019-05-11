@@ -12,6 +12,7 @@ RUN pip3 install Flask
 RUN pip3 install jsonrpcserver
 RUN pip3 install jsonrpcclient
 RUN pip install "jsonrpcclient[requests]"
+RUN pip3 install flask-login
 
 ENTRYPOINT [ "python3", "-u", "GameClient.py"]
 

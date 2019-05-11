@@ -70,11 +70,13 @@ span.psw {
 
 <h2>Welcome {{username}}</h2>
 <h3>Server message: {{server_message}}</h3>
-<form action="" method="post">
-  <div class="container">
-    <button type="button">Find lobby</button>
-    <button type="button">Create lobby</button>  
-  </div>
+
+<form action="/findlobby" method="get">
+  <button type="submit">Find lobby</button>
+</form>
+
+<form action="/createlobby" method="get">
+  <button type="submit">Create lobby</button>
 </form>
 
 </body>

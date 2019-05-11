@@ -6,9 +6,35 @@ services:
     hostname: gameclient
     ports:
      - 5000:5000
+     - 5006:5006
     restart: always
     networks:
       - game-service-network
+    volumes:
+      - ./GameClient:/app
+
+  gameclient2:
+    image: gameclient
+    hostname: gameclient2
+    ports:
+     - 5010:5000
+    restart: always
+    networks:
+      - game-service-network
+    volumes:
+      - ./GameClient:/app
+
+  gamelobby:
+    image: gamelobby
+    hostname: gamelobby
+    ports:
+     - 5005:5005
+    restart: always
+    networks:
+      - game-service-network
+      - database-network
+    volumes:
+      - ./GameLobby:/app
 
   gameservice:
     image: gameservice
@@ -21,7 +47,9 @@ services:
     networks:
       - game-service-network
       - database-network
-
+    volumes:
+      - ./GameService:/app
+      
   database:
     image: mysql:5.5
     hostname: database
